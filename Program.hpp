@@ -10,3 +10,4 @@ class As_Program
 		static void Draw_UI();
 		static void Start_Controller();
 };
+

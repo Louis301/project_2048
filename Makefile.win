@@ -4,11 +4,11 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = Main.o CSVFile.o Carriage.o Program.o
-LINKOBJ  = Main.o CSVFile.o Carriage.o Program.o
-LIBS     = -L"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/lib32" -L"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -m32 -g3
-INCS     = -I"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/include" -I"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
-CXXINCS  = -I"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/include" -I"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Users/Louis301/Desktop/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+OBJ      = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o
+LINKOBJ  = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o
+LIBS     = -L"C:/Dev-Cpp/MinGW64/lib32" -L"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -m32 -g3
+INCS     = -I"C:/Dev-Cpp/MinGW64/include" -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Dev-Cpp/MinGW64/include" -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
 BIN      = project_2048.exe
 CXXFLAGS = $(CXXINCS) -m32 -std=gnu++11 -g3
 CFLAGS   = $(INCS) -m32 -std=gnu++11 -g3
@@ -35,3 +35,9 @@ Carriage.o: Carriage.cpp
 
 Program.o: Program.cpp
 	$(CPP) -c Program.cpp -o Program.o $(CXXFLAGS)
+
+Key_Handler.o: Key_Handler.cpp
+	$(CPP) -c Key_Handler.cpp -o Key_Handler.o $(CXXFLAGS)
+
+User_Interface.o: User_Interface.cpp
+	$(CPP) -c User_Interface.cpp -o User_Interface.o $(CXXFLAGS)
