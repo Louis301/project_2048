@@ -21,4 +21,5 @@ class Key_Handler
 		static void On_Right();
 		static void On_C();
 		static void On_R();
+		static void On_Space();
 };

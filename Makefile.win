@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o
-LINKOBJ  = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o
+OBJ      = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o Event.o InternalData.o
+LINKOBJ  = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o Event.o InternalData.o
 LIBS     = -L"C:/Dev-Cpp/MinGW64/lib32" -L"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -m32 -g3
 INCS     = -I"C:/Dev-Cpp/MinGW64/include" -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Dev-Cpp/MinGW64/include" -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -41,3 +41,9 @@ Key_Handler.o: Key_Handler.cpp
 
 User_Interface.o: User_Interface.cpp
 	$(CPP) -c User_Interface.cpp -o User_Interface.o $(CXXFLAGS)
+
+Event.o: Event.cpp
+	$(CPP) -c Event.cpp -o Event.o $(CXXFLAGS)
+
+InternalData.o: InternalData.cpp
+	$(CPP) -c InternalData.cpp -o InternalData.o $(CXXFLAGS)

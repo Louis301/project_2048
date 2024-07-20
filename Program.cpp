@@ -1,6 +1,7 @@
 #include "Program.hpp"
 #include "Key_Handler.hpp"
 #include "User_Interface.hpp"
+#include "InternalData.hpp"
 
 #include "conio.h"
 
@@ -20,7 +21,8 @@ enum EKeys   // для строчных букв
 	EK_LEFT = 75,
 	EK_RIGHT = 77,
 	EK_C = 99,
-	EK_R = 114
+	EK_R = 114,
+	EK_SPACE = 32
 //	EK_W = 119,
 //	EK_S = 115,
 //	EK_A = 97,
@@ -31,47 +33,8 @@ enum EKeys   // для строчных букв
 //	EK_LEFT = 75,
 //	EK_RIGHT = 77,
 //	EK_ENTER = 13,
-//	EK_SPACE = 32,
 //	EK_Y = 121,
 //	EK_N = 110
-};
-
-
-// ----------------------------------------------------------------------------------------------------
-class As_Game_Field
-{
-	public:
-	static void Reset()
-	{
-		
-	}
-};
-
-class As_System_Message
-{
-	public:
-	static void Reset()
-	{
-		
-	}
-};
-
-class As_Total_Score
-{
-	public:
-	static void Reset()
-	{
-		
-	}
-};
-
-class As_Record_Title
-{
-	public:
-	static void Reset()
-	{
-		
-	}
 };
 
 
@@ -107,6 +70,7 @@ void As_Program::Start_Controller()
 			case EK_RIGHT:	Key_Handler::On_Right();	break;
 			case EK_C:		Key_Handler::On_C();		break;
 			case EK_R:		Key_Handler::On_R();		break;
+			case EK_SPACE:	Key_Handler::On_Space();	break;
 			
 			default:									break;	
 		}	

@@ -12,9 +12,7 @@ ACSVFile::ACSVFile(std::string path)
 void ACSVFile::Write(std::string &content)
 {
 	std::ofstream fout(Path.c_str());
-	
-	fout << content;
-    
+	fout << content;   
 	fout.close();
 }
 
@@ -32,7 +30,6 @@ void ACSVFile::Read(std::string &content)
 	}
             
     fin.close();
-    
     content = Content;
 }
 

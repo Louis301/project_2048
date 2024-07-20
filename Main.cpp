@@ -29,6 +29,5 @@ int main(int argc, char** argv)
 	As_Program::Draw_UI();
 	As_Program::Start_Controller();	
 	
-	getch();
 	return 0;
 }
