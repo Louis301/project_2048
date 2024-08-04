@@ -1,5 +1,6 @@
 #include "Event.hpp"
-#include "InternalData.hpp"
+//#include "InternalData.hpp"
+#include "User_Interface.hpp"
 #include "Program.hpp"
 
 void As_Event::Stop_Program()
@@ -32,10 +33,13 @@ void As_Event::Restart_Game()
 }
 
 
-void As_Event::Game_Field_Interaction(int dx, int dy)
+void As_Event::Game_Field_Interaction(EOffsetDirection offset_direction)
 {
 	//смещение плиток со сложением чисел
 	//проверка наличия 2048 или невозможности хода
 	//сохраняем результат в таблицу рекордов
 	//печать соответствующего системного сообщения
+	As_Game_Field::Offset(offset_direction);
+	As_UI_Game_field::Hide();
+	As_UI_Game_field::Show();
 }

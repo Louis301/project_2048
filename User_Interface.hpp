@@ -18,7 +18,10 @@
 class As_UI_Game_field
 {
 	public:
-	static void Show();
+		static void Show();
+		static void Hide();
+//		Print_Dynamic
+//		Print_Static
 };
 
 // ----------------------------------------------------------------------------------------------------

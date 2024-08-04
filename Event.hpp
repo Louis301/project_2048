@@ -1,4 +1,6 @@
 #pragma once
+#include "InternalData.hpp"
+
 
 class As_Event
 {
@@ -7,5 +9,5 @@ class As_Event
 		static void Show_Record_Table();
 		static void Continue_Game();
 		static void Restart_Game();
-		static void Game_Field_Interaction(int dx, int dy);
+		static void Game_Field_Interaction(EOffsetDirection);
 };
