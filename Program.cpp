@@ -2,16 +2,9 @@
 #include "Key_Handler.hpp"
 #include "User_Interface.hpp"
 #include "InternalData.hpp"
-
-#include "conio.h"
-
-//As_Game_Field::Reset();
-//	As_System_Message::Reset();
-//	As_Total_Score::Reset();
-//	As_Record_Title::Reset();
+#include <conio.h>
 
 bool As_Program::Exit_Program = false;
-
 
 enum EKeys   // для строчных букв
 {
@@ -23,31 +16,18 @@ enum EKeys   // для строчных букв
 	EK_C = 99,
 	EK_R = 114,
 	EK_SPACE = 32
-//	EK_W = 119,
-//	EK_S = 115,
-//	EK_A = 97,
-//	EK_D = 100,
-//	EK_ESC = 27,
-//	EK_UP = 72,
-//	EK_DOWN = 80,
-//	EK_LEFT = 75,
-//	EK_RIGHT = 77,
-//	EK_ENTER = 13,
-//	EK_Y = 121,
-//	EK_N = 110
 };
 
 
-// ----------------------------------------------------------------------------------------------------
 void As_Program::Set_Internal_Data()
 {	
 	As_Game_Field::Reset();
 	As_System_Message::Reset();
 	As_Total_Score::Reset();
-	As_Record_Title::Reset();
+	As_Record_Table::Reset();
 }
 
-// ----------------------------------------------------------------------------------------------------
+
 void As_Program::Draw_UI()  // для первого экрана
 {
 	As_UI_Game_field::Show();
@@ -56,7 +36,7 @@ void As_Program::Draw_UI()  // для первого экрана
 	As_UI_Total_Score::Show();	
 }
 
-// ----------------------------------------------------------------------------------------------------
+
 void As_Program::Start_Controller()
 {
 	while(!Exit_Program)
@@ -76,4 +56,3 @@ void As_Program::Start_Controller()
 		}	
 	}
 }
-
