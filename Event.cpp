@@ -33,13 +33,27 @@ void As_Event::Restart_Game()
 }
 
 
+
 void As_Event::Game_Field_Interaction(EOffsetDirection offset_direction)
 {
-	//смещение плиток со сложением чисел
-	//проверка наличия 2048 или невозможности хода
-	//сохраняем результат в таблицу рекордов
-	//печать соответствующего системного сообщения
-	As_Game_Field::Offset(offset_direction);
-	As_UI_Game_field::Hide();
-	As_UI_Game_field::Show();
+//	printf("kjj");
+	if (As_Game_Field::Offset_Indicators[offset_direction] == 0)
+	{
+		As_Game_Field::Offset(offset_direction);
+		As_UI_Game_field::Hide();
+		As_UI_Game_field::Show();  // Заменить на отображение динамической части
+		
+		As_Game_Field::Put_Element();
+	}
+//	if (As_Game_Field::Offset_Is_Not_Possible())
+//		printf("\nFail");
+//	else if (As_Game_Field::Have_2048)
+//		printf("\nWin");
+//	else
+//		As_Game_Field::Put_Element();
 }
+
+
+
+
+

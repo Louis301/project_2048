@@ -46,6 +46,8 @@ void AsCarriage::Set_Color(EColor text_color)
 void AsCarriage::Set_Default()
 {
 //	X = Y = 0;
+	Hide();
+
 	Text_Color = EC_White;
 	Bg_Color = EC_Black;
 	
