@@ -1,15 +1,14 @@
 #include "InternalData.hpp"
 #include <algorithm>
 
-
 bool As_Game_Field::Offset_Has_Been = false;
 bool As_Game_Field::Have_2048 = false;
-//bool As_Game_Field::Check_Possible_Offset_Full_Indicator = false;
+bool As_Game_Field::Offset_Is_Not_Possible = false;
 
 const int As_Game_Field::N = 4;  // Порядок игровой матрицы
 
 std::vector<std::vector<int>> As_Game_Field::Game_Field;
-std::vector<int> As_Game_Field::Offset_Indicators = {0, 0, 0, 0};
+std::vector<bool> As_Game_Field::Offset_Indicators = {true, true, true, true};
 
 
 void As_Game_Field::Reset()
@@ -22,28 +21,42 @@ void As_Game_Field::Reset()
 		Game_Field.push_back(line);
 	}
 	
-	// Для установке первичного состояния игрового поля (с двумя элементами)
 	Put_Element();
 	Put_Element();
 }
 
-void As_Game_Field::Put_Element()
+void As_Game_Field::Put_Element()   // если на матрице есть нули, установка 2 и 4
 {
-	const std::vector<int> simple_elements = {2, 4};
-	int x = rand() % N;
-	int y = rand() % N;				
-		
-	if (Game_Field[y][x] == 0) 
-		Game_Field[y][x] = simple_elements[rand() % 2];
+	for (auto line : Game_Field)
+	{
+	 	for (auto item : line)
+		{
+		 	if (item == 0)    // матрица содержит нули
+		 	{
+		 		const std::vector<int> simple_elements = {2, 4};
+		    	int x, y;
+		    
+		        do
+				{
+				    x = rand() % N;
+				    y = rand() % N;					
+				}
+				while (Game_Field[y][x] != 0);
+				
+				Game_Field[y][x] = simple_elements[rand() % 2];
+				
+				return;
+			}
+	    }	
+	}
 }
 
-void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offset) 
+void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offset)   // смещение элементов ряда
 {
+	bool offset_has_been = false;    // проверка смещения (local var)
+	
 	int i = (delta_offset == -1) ? (i = N - 1) : (0);
     int j = i + delta_offset;	
-    
-    Offset_Has_Been = false;
-    
 	while ((delta_offset == -1) ? (i > 0 && j >= 0) : (i < N - 1 && j < N))
     {
     	if (line[j] == 0)
@@ -53,13 +66,12 @@ void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offse
         else if (line[j] == line[i])   // здесь проверка возможности след. хода
         {
         	line[i] *= 2;
+        	if (line[i] == 2048)      // для обработки выигрыша
+				Have_2048 = true;
             i += delta_offset;
             line[j] = 0;
             j = i + delta_offset;
-			Offset_Has_Been = true;
-			
-			if (line[i] == 64)   // Заменить на 2048
-				Have_2048 = true;
+			offset_has_been = true;
 		}
         else if (line[i] == 0)    // здесь проверка возможности след. хода
         {
@@ -67,7 +79,7 @@ void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offse
         	line[i] = line[j];
         	line[j] = temp;
             j += delta_offset;
-            Offset_Has_Been = true;
+            offset_has_been = true;
 		}    
         else
         {
@@ -75,9 +87,12 @@ void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offse
             j = i + delta_offset;
 		}
 	}
+	
+	if (offset_has_been and !Offset_Has_Been)
+		Offset_Has_Been = true;	
 }
 
-void As_Game_Field::Reverse()
+void As_Game_Field::Reverse()    // инверсия матрицы относительно главной диагонали
 {
 	int k = 0;
 	for (int i = 0; i < N; i++)
@@ -92,78 +107,33 @@ void As_Game_Field::Reverse()
 	}
 }
 
-void As_Game_Field::Offset(EOffsetDirection offset_direction)
+void As_Game_Field::Offset(EOffsetDirection offset_direction)   // полное смещение матрицы в выбранном направлении
 {
+	Offset_Has_Been = false;   // пока неизвестно, что элементы могут смещены. Поэтому false
+	
 	bool vertical_offset = false;
 	int delta_offset = 1;
-//	Offset_Has_Been = false;
-    
-//	if (!Check_Possible_Offset_Full_Indicator)
-    	Offset_Indicators = {0, 0, 0, 0};
-	
 	if (offset_direction == EOD_To_Down || offset_direction == EOD_To_Up)
         vertical_offset = true;
     if (offset_direction == EOD_To_Right || offset_direction == EOD_To_Down)
         delta_offset = -1;
-               
     if (vertical_offset)  
 		Reverse();
-               
     for (auto &line : Game_Field)
     	Line_Elements_Offset(line, delta_offset);
-    
 	if (vertical_offset)  
 		Reverse();
 	
-	Offset_Indicators[offset_direction] = (int)(!Offset_Has_Been);
+	// здесь известно, прошло смещение в конкретном направлении или нет, а также содержит матрица 2048 или нет
+	Offset_Indicators[offset_direction] = Offset_Has_Been;
+	
+	// если в векторе индикаторов нет единицы  - смещение невозможно
+	for (auto item : Offset_Indicators)
+		if (item == true)
+			return;
+			
+	Offset_Is_Not_Possible = true;
 }
-
-
-//bool As_Game_Field::Offset_Is_Not_Possible()
-//{
-//	Check_Possible_Offset_Full_Indicator = true;
-//		
-////	std::vector<std::vector<int>> gf;
-////	for (auto line : Game_Field)
-////		gf.push_back(line);
-//	auto gf = Game_Field;
-//	 
-////	bool Not_Possible = false;
-////	
-//	Offset(EOD_To_Up);
-//	if (Offset_Has_Been)
-//	{
-//		Check_Possible_Offset_Full_Indicator = false;
-//		Game_Field = gf;
-//		return false;
-//	}
-////		
-//	Offset(EOD_To_Down);
-//	if (Offset_Has_Been)
-//	{
-//		Check_Possible_Offset_Full_Indicator = false;
-//		Game_Field = gf;
-//		return false;
-//	}
-////	
-//	Offset(EOD_To_Left);
-//	if (Offset_Has_Been)
-//	{
-//		Check_Possible_Offset_Full_Indicator = false;
-//		Game_Field = gf;
-//		return false;
-//	}
-////		
-//	Offset(EOD_To_Right);
-//	if (Offset_Has_Been)
-//	{
-//		Check_Possible_Offset_Full_Indicator = false;
-//		Game_Field = gf;
-//		return false;
-//	}
-////		
-//	return true;
-//}
 
 
 // ---------------------------------------------------------------------

@@ -1,40 +1,68 @@
 #include "User_Interface.hpp"
 #include "InternalData.hpp"
 #include "Carriage.hpp"
-
 #include <iostream> 
+
+#include <windows.h>
+#include <conio.h>
 
 void As_UI_Game_field::Show()
 {
+	
+	
 	AsCarriage::Set_Default();
-//	AsCarriage::Set_Coord(0, 0);
-//	AsCarriage::Set_Color(EC_White, EC_Black);
 	
 	auto game_field = As_Game_Field::Game_Field;
 	int n = game_field.size();
-	
-	
-	// Печать рамки
-	// ...
-	
 	
 	// Печать элементов игрового поля
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n; j++)
+		{
+			switch (game_field[i][j])
+			{
+				case 2: 
+					AsCarriage::Set_Color(EC_Blue);
+					break;
+				case 4:
+					AsCarriage::Set_Color(EC_Cyan); 
+					break;
+				case 8: 
+					AsCarriage::Set_Color(EC_Dark_Green);
+					break;
+				case 16: 
+					AsCarriage::Set_Color(EC_Dark_Grey);
+					break;
+				case 32: 
+					AsCarriage::Set_Color(EC_Dark_Pink);
+					break;
+				case 64: 
+					AsCarriage::Set_Color(EC_Dark_Red);
+					break;
+				case 128: 
+					AsCarriage::Set_Color(EC_Dark_Yellow);
+					break;
+				case 256: 
+					AsCarriage::Set_Color(EC_Green);
+					break;
+				case 512: 
+					AsCarriage::Set_Color(EC_Dark_Yellow);
+					break;
+				case 1024: 
+					AsCarriage::Set_Color(EC_Yellow);
+					break;
+				case 2024: 
+					AsCarriage::Set_Color(EC_Dark_Blue);	
+					break;
+				default:
+					AsCarriage::Set_Color(EC_Black);	
+					break;
+			}
 			printf("%d\t", game_field[i][j]);
+		}		
 		printf("\n");	
-	}	
-	
-//	std::cout << "\nOffset_Is_Not_Possible -> " << As_Game_Field::Offset_Is_Not_Possible();
-	std::cout << "\nHave_2048 -> " << As_Game_Field::Have_2048;
-	
-	std::cout << "\n\nto_left -> " << As_Game_Field::Offset_Indicators[0];
-	std::cout << "\nto_right -> " << As_Game_Field::Offset_Indicators[1];
-	std::cout << "\nto_up -> " << As_Game_Field::Offset_Indicators[2];
-	std::cout << "\nto_down -> " << As_Game_Field::Offset_Indicators[3];
-	
-//	std::cout << "\n\nOffset_Has_Been -> " << As_Game_Field::Offset_Has_Been;
+	}
 }
 
 void As_UI_Game_field::Hide()
