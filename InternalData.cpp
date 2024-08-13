@@ -113,6 +113,7 @@ void As_Game_Field::Offset(EOffsetDirection offset_direction)   // полное смещен
 	
 	bool vertical_offset = false;
 	int delta_offset = 1;
+	
 	if (offset_direction == EOD_To_Down || offset_direction == EOD_To_Up)
         vertical_offset = true;
     if (offset_direction == EOD_To_Right || offset_direction == EOD_To_Down)
