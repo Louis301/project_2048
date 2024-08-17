@@ -17,26 +17,33 @@ enum EKeys   // для строчных букв
 	EK_R = 114,
 	EK_SPACE = 32
 };
-
-
+// ----------------------------------------------------------------------------------------------------
 void As_Program::Set_Internal_Data()
 {	
 	As_Game_Field::Reset();
 	As_System_Message::Reset();
+	
 	As_Total_Score::Reset();
 	As_Record_Table::Reset();
 }
-
-
+// ----------------------------------------------------------------------------------------------------
 void As_Program::Draw_UI()  // для первого экрана
 {
-	As_UI_Game_field::Show();
-	As_UI_System_Msg::Show();
-	As_UI_Control_Info::Show();
-	As_UI_Total_Score::Show();	
+	As_UI_Game_field::Set_Draw_Position(0, 0);
+	As_UI_Game_field::Show_Static(true);
+	As_UI_Game_field::Show_Dynamic(true);
+	
+	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 1);
+	As_UI_System_Msg::Show_Dynamic(false);
+	
+	As_UI_Total_Score::Set_Draw_Position(As_Game_Field::Game_Field.size() * 5 + 4, 1);
+	As_UI_Total_Score::Show_Static(true);
+	As_UI_Total_Score::Show_Dynamic(true);
+	
+	As_UI_Control_Info::Set_Draw_Position(As_Game_Field::Game_Field.size() * 5 + 4, 3);    // Здесь нужен cell_width
+	As_UI_Control_Info::Show_Static(true);
 }
-
-
+// ----------------------------------------------------------------------------------------------------
 void As_Program::Start_Controller()
 {
 	while(!Exit_Program)
@@ -50,8 +57,7 @@ void As_Program::Start_Controller()
 			case EK_RIGHT:	Key_Handler::On_Right();	break;
 			case EK_C:		Key_Handler::On_C();		break;
 			case EK_R:		Key_Handler::On_R();		break;
-			case EK_SPACE:	Key_Handler::On_Space();	break;
-			
+			case EK_SPACE:	Key_Handler::On_Space();	break;			
 			default:									break;	
 		}	
 	}

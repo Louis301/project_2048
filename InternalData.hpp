@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 
+// ----------------------------------------------------------------------------------------------------
 enum EOffsetDirection 
 {
 	EOD_To_Left,
@@ -11,6 +12,9 @@ enum EOffsetDirection
 };
 
 
+
+
+// ----------------------------------------------------------------------------------------------------
 class As_Game_Field
 {	
 	public:
@@ -28,11 +32,12 @@ class As_Game_Field
 		static void Line_Elements_Offset(std::vector<int> &line, int delta_offset);
 		static void Reverse();  // Инверсия матрицы относительно главной диагонали
 		
+		static int Delta_Score;        // Надо удалить и брать атрибут из ТоталСкор
+		
 		static std::vector<bool> Offset_Indicators;
 		static const int N;
 };
-
-
+// ----------------------------------------------------------------------------------------------------
 class As_System_Message
 {
 	private:
@@ -41,19 +46,22 @@ class As_System_Message
 	public:
 		static void Reset();  // Сбрасывает состояние системного сообщения до нулевого
 		static void Set(std::string message);
+		static std::string Get();
+		
 };
-
-
+// ----------------------------------------------------------------------------------------------------
 class As_Total_Score
 {
 	private:
 		static int Total_Score;
+		static int Delta_Score;
 	
-	public:
-		static void Reset();  // Сбрасывает счёт до нулевого
+	public:	
+		static void Reset();  					// Сбрасывает счёт до нулевого
+		static void Set(int delta_score);       // Заменить на инкремент (по смыслу)  
+		static std::vector<int> Get();
 };
-
-
+// ----------------------------------------------------------------------------------------------------
 class As_Record_Table
 {
 	public:
