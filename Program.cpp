@@ -33,7 +33,7 @@ void As_Program::Draw_UI()  // для первого экрана
 	As_UI_Game_field::Show_Static(true);
 	As_UI_Game_field::Show_Dynamic(true);
 	
-	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 1);
+	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
 	As_UI_System_Msg::Show_Dynamic(false);
 	
 	As_UI_Total_Score::Set_Draw_Position(As_Game_Field::Game_Field.size() * 5 + 4, 1);

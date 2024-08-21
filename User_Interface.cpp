@@ -90,20 +90,26 @@ void As_UI_Game_field::Set_Draw_Position(int x_offset, int y_offset)
 
 
 // ----------------------------------------------------------------------------------------------------
-int As_UI_System_Msg::X_Offset = 0;
-int As_UI_System_Msg::Y_Offset = 0;
+int As_UI_System_Msg::_X_Offset = 0;
+int As_UI_System_Msg::_Y_Offset = 0;
+EColor As_UI_System_Msg::_Color = EC_White;
 // ----------------------------------------------------------------------------------------------------
 void As_UI_System_Msg::Show_Dynamic(bool Color_Mode)
 {
-	AsCarriage::Set_Color(Color_Mode ? EC_White : EC_Black);
-	AsCarriage::Set_Coord(As_UI_System_Msg::X_Offset, As_UI_System_Msg::Y_Offset);
+	AsCarriage::Set_Color(Color_Mode ? As_UI_System_Msg::_Color : EC_Black);
+	AsCarriage::Set_Coord(As_UI_System_Msg::_X_Offset, As_UI_System_Msg::_Y_Offset);
 	std::cout << As_System_Message::Get();
 }
 // ----------------------------------------------------------------------------------------------------
 void As_UI_System_Msg::Set_Draw_Position(int x_offset, int y_offset)
 {
-	As_UI_System_Msg::X_Offset = x_offset;
-	As_UI_System_Msg::Y_Offset = y_offset;
+	As_UI_System_Msg::_X_Offset = x_offset;
+	As_UI_System_Msg::_Y_Offset = y_offset;
+}
+// ----------------------------------------------------------------------------------------------------
+void As_UI_System_Msg::Set_Color(EColor color)
+{
+	As_UI_System_Msg::_Color = color;
 }
 
 
@@ -125,12 +131,18 @@ void As_UI_Control_Info::Show_Static(bool Color_Mode)
 	
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset);
 	printf("Control:");
-	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 1);
-	printf("  r - records");
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 2);
-	printf("  esc - exit");
+	printf("r      - restart");
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 3);
-	printf("  arrows - move");
+	printf("esc    - exit");
+	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 4);
+	printf("arrows - move");
+	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 5);
+	printf("space  - records table");
+	
+	// Выводить при выигрыше (лучше в системных сообщениях)
+	// AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 6);
+	// printf("c - continue");
 }
 
 
@@ -157,11 +169,9 @@ void As_UI_Total_Score::Show_Dynamic(bool Color_Mode)
 {
 	AsCarriage::Set_Color(Color_Mode ? EC_White : EC_Black);
 	AsCarriage::Set_Coord(As_UI_Total_Score::X_Offset + 8, As_UI_Total_Score::Y_Offset);
-			
 	std::vector<int> score_data	= As_Total_Score::Get();
-			
-	printf("%d  ", score_data[0]);
-	
-	if (score_data.size() == 2)
+	printf("%d  ", score_data[0]);	
+	if (score_data.size() > 1)
 		printf("+%d", score_data[1]);
 }
+

@@ -18,12 +18,14 @@ class As_UI_Game_field
 class As_UI_System_Msg
 {
 	private:
-		static int X_Offset;
-		static int Y_Offset;
+		static int    _X_Offset;
+		static int    _Y_Offset;
+		static EColor _Color;
 		
 	public:
 		static void Set_Draw_Position(int x_offset, int y_offset);
 		static void Show_Dynamic(bool Color_Mode);
+		static void Set_Color(EColor color);
 };
 // ----------------------------------------------------------------------------------------------------
 class As_UI_Control_Info      // ћожет, создать класс дл€ внутренних данных (смежный) ?

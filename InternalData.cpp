@@ -4,16 +4,18 @@
 bool As_Game_Field::Offset_Has_Been = false;
 bool As_Game_Field::Have_2048 = false;
 bool As_Game_Field::Offset_Is_Not_Possible = false;
-int As_Game_Field::Delta_Score = 0;
-
-const int As_Game_Field::N = 4;  // Порядок игровой матрицы
 
 std::vector<std::vector<int>> As_Game_Field::Game_Field;
-std::vector<bool> As_Game_Field::Offset_Indicators = {true, true, true, true};
+std::vector<bool> As_Game_Field::Offset_Indicators;
+
+const int As_Game_Field::N = 4;  // Порядок игровой матрицы
 
 // ----------------------------------------------------------------------------------------------------
 void As_Game_Field::Reset()
 {
+	As_Game_Field::Game_Field.clear();
+	As_Game_Field::Offset_Indicators = {true, true, true, true};
+	
 	for (int i = 0; i < N; i++)
 	{
 		std::vector<int> line;
@@ -63,13 +65,11 @@ void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offse
 		}
         else if (line[j] == line[i])   // здесь проверка возможности след. хода
         {
-        	line[i] *= 2;
-        	
-			As_Game_Field::Delta_Score += line[i];	
-        	
+        	line[i] *= 2;	
+			As_Total_Score::Save_Up(line[i]);   // ВЕРНУТЬСЯ ПОЗЖЕ   здесь надо дельту накапливать			
+			
 			if (line[i] == 2048)      // для обработки выигрыша
 				Have_2048 = true;
-            
 			i += delta_offset;
             line[j] = 0;
             j = i + delta_offset;
@@ -109,9 +109,7 @@ void As_Game_Field::Reverse()    // инверсия матрицы относительно главной диагон
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Game_Field::Offset(EOffsetDirection offset_direction)   // полное смещение матрицы в выбранном направлении
-{
-	As_Game_Field::Delta_Score = 0;
-	
+{	
 	Offset_Has_Been = false;   // пока неизвестно, что элементы могут смещены. Поэтому false
 	bool vertical_offset = false;
 	int delta_offset = 1;
@@ -129,13 +127,12 @@ void As_Game_Field::Offset(EOffsetDirection offset_direction)   // полное смещен
 	
 	// здесь известно, прошло смещение в конкретном направлении или нет, а также содержит матрица 2048 или нет
 	Offset_Indicators[offset_direction] = Offset_Has_Been;
+	
 	// если в векторе индикаторов нет единицы  - смещение невозможно
 	for (auto item : Offset_Indicators)
 		if (item == true)
 			return;
 	Offset_Is_Not_Possible = true;
-	
-	As_Total_Score::Set(As_Game_Field::Delta_Score);
 }
 
 
@@ -144,48 +141,48 @@ void As_Game_Field::Offset(EOffsetDirection offset_direction)   // полное смещен
 // ----------------------------------------------------------------------------------------------------
 std::string As_System_Message::System_Msg = "";
 // ----------------------------------------------------------------------------------------------------
-void As_System_Message::Reset()
-{
-	As_System_Message::Set("");
-}
+void As_System_Message::Reset() { As_System_Message::Set(""); }
 // ----------------------------------------------------------------------------------------------------
-void As_System_Message::Set(std::string message)
-{
-	As_System_Message::System_Msg = message;
-}
+void As_System_Message::Set(std::string message) { As_System_Message::System_Msg = message; }
 // ----------------------------------------------------------------------------------------------------
-std::string As_System_Message::Get()
-{
-	return As_System_Message::System_Msg;
-}
+std::string As_System_Message::Get() { return As_System_Message::System_Msg; }
 
 
 
 
-// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------    Всё переделать !
 int As_Total_Score::Total_Score = 0;
 int As_Total_Score::Delta_Score = 0;
 // ---------------------------------------------------------------------
-void As_Total_Score::Reset()
-{	
-	As_Total_Score::Total_Score = 0;
+void As_Total_Score::Reset() 
+{ 
+	As_Total_Score::Total_Score = 0; 
 }
 // ---------------------------------------------------------------------
-void As_Total_Score::Set(int delta_score)
-{
-	As_Total_Score::Total_Score += delta_score;
-	As_Total_Score::Delta_Score = delta_score;
+void As_Total_Score::Save_Up(int value)    // ВРЕМЕННО
+{ 
+	As_Total_Score::Delta_Score = value;
+	//As_Total_Score::Total_Score += As_Total_Score::Delta_Score; 
+	As_Total_Score::Total_Score += value;
+}
+// ---------------------------------------------------------------------
+void As_Total_Score::Reset_Delta() 
+{ 
+	As_Total_Score::Delta_Score = 0; 
+}
+// ---------------------------------------------------------------------
+void As_Total_Score::Delta_Increment(int value) 
+{ 
+	As_Total_Score::Delta_Score += value; 
+	// не отрабатывает
 }
 // ---------------------------------------------------------------------
 std::vector<int> As_Total_Score::Get()     // Метод должен возвращать строку
 {
 	std::vector<int> score_data;
-	
 	score_data.push_back(As_Total_Score::Total_Score);
-	
 	if (As_Total_Score::Total_Score > 0)
 		score_data.push_back(As_Total_Score::Delta_Score);
-	
 	return score_data;         // Использовать интерполяцию
 }
 
