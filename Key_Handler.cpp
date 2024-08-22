@@ -7,17 +7,12 @@ EInteractionLayer Key_Handler::Interaction_Layer = EIL_Main_Screen;
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_C()
 {
-//	if (Interaction_Layer == EIL_Main_Screen)
-//	{
-//		std::cout << "On_C()  " << "ok";
-//	}
-//	else
-//	{
-//		std::cout << "else C";
-//	}
-
-//EIL_Main_Screen,
-//	EIL_Record_Table_Screen
+	switch(Interaction_Layer)
+	{
+		case EIL_Main_Screen: 
+			As_Event::Continue_Game();
+			break;
+	}
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -50,6 +45,13 @@ void Key_Handler::On_R()
 void Key_Handler::On_Space()
 {
 	// таблица рекордов
+	
+	switch(Interaction_Layer)
+	{
+		case EIL_Main_Screen: 
+			As_Event::Show_Record_Table();
+			break;
+	}
 }
 		
 // ----------------------------------------------------------------------------------------------------

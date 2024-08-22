@@ -1,6 +1,7 @@
 #include "Event.hpp"
 #include "User_Interface.hpp"
 #include "Program.hpp"
+#include <windows.h>
 
 // ----------------------------------------------------------------------------------------------------
 void As_Event::Stop_Program()
@@ -15,12 +16,14 @@ void As_Event::Show_Record_Table()
 	//стирает главный экран
 	//отображает таблицу рекордов
 	//отображает клавиши управления экраном
+	system("cls");
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Event::Continue_Game()
 {
 	//убираем сообщение о победе (очистка системного сообщения)
 	//передаём пользователю управление игровой матрицей
+	As_UI_System_Msg::Show_Dynamic(false);  //очищаем системное сообщение
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Event::Restart_Game()
@@ -37,6 +40,22 @@ void As_Event::Restart_Game()
 	As_UI_Total_Score::Show_Dynamic(true);
 }
 // ----------------------------------------------------------------------------------------------------
+void As_Event::You_Win()
+{
+	As_System_Message::Set("YOU WIN !!!  Press C for continue");
+	As_UI_System_Msg::Set_Color(EC_Yellow);
+	As_Game_Field::Have_2048 = false;        // чтобы в дальнейшем сообщение не печаталось
+	As_UI_System_Msg::Show_Dynamic(true);    
+}
+// ----------------------------------------------------------------------------------------------------
+void As_Event::You_Fail()
+{
+	As_System_Message::Set("You Fail...");
+	As_UI_System_Msg::Set_Color(EC_Red);
+	As_Game_Field::Offset_Is_Not_Possible = false;   // чтобы в дальнейшем сообщение не печаталось
+	As_UI_System_Msg::Show_Dynamic(true);
+}
+// ----------------------------------------------------------------------------------------------------
 void As_Event::Game_Field_Interaction(EOffsetDirection offset_direction)
 {	
 	As_UI_Game_field::Show_Dynamic(false);  // затираем дин. часть интерфейса
@@ -47,19 +66,12 @@ void As_Event::Game_Field_Interaction(EOffsetDirection offset_direction)
 		As_Game_Field::Put_Element();   // если на матрице есть нули, установка 2 и 4			
 	
 	if (As_Game_Field::Offset_Is_Not_Possible)   // обработка проигрыша
-	{
-		As_System_Message::Set("You Fail...");
-		As_UI_System_Msg::Set_Color(EC_Red);
-	}
+		As_Event::You_Fail();
+		
 	if (As_Game_Field::Have_2048)   // обработка выигрыша
-	{
-		As_System_Message::Set("YOU WIN !!!");
-		As_UI_System_Msg::Set_Color(EC_Yellow);
-	}
-	
+		As_Event::You_Win();
+		
 	As_UI_Game_field::Show_Dynamic(true);   // печатаем новое состояние матрицы	
 	As_UI_Total_Score::Show_Dynamic(true);   // печатаем новое состояние счёта
-	As_UI_System_Msg::Show_Dynamic(true);
 }
-
 

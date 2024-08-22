@@ -1,9 +1,10 @@
 #include "InternalData.hpp"
 #include <time.h>
 
-bool As_Game_Field::Offset_Has_Been = false;
-bool As_Game_Field::Have_2048 = false;
-bool As_Game_Field::Offset_Is_Not_Possible = false;
+bool As_Game_Field::Offset_Has_Been;
+bool As_Game_Field::Have_2048;
+bool As_Game_Field::Offset_Is_Not_Possible;
+bool As_Game_Field::Win_Was_Been;
 
 std::vector<std::vector<int>> As_Game_Field::Game_Field;
 std::vector<bool> As_Game_Field::Offset_Indicators;
@@ -15,6 +16,10 @@ void As_Game_Field::Reset()
 {
 	As_Game_Field::Game_Field.clear();
 	As_Game_Field::Offset_Indicators = {true, true, true, true};
+	As_Game_Field::Offset_Has_Been = false;
+	As_Game_Field::Have_2048 = false;
+	As_Game_Field::Offset_Is_Not_Possible = false;
+	As_Game_Field::Win_Was_Been = false;
 	
 	for (int i = 0; i < N; i++)
 	{
@@ -68,8 +73,9 @@ void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offse
         	line[i] *= 2;	
 			As_Total_Score::Save_Up(line[i]);   // ¬≈–Ќ”“№—я ѕќ«∆≈   здесь надо дельту накапливать			
 			
-			if (line[i] == 2048)      // дл€ обработки выигрыша
-				Have_2048 = true;
+			if (line[i] == 128 and !Win_Was_Been)      // дл€ обработки выигрыша      ¬≈–Ќ”“№ 2048
+				Win_Was_Been = Have_2048 = true;
+			
 			i += delta_offset;
             line[j] = 0;
             j = i + delta_offset;

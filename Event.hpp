@@ -10,4 +10,6 @@ class As_Event
 		static void Continue_Game();
 		static void Restart_Game();
 		static void Game_Field_Interaction(EOffsetDirection);
+		static void You_Fail();
+		static void You_Win();
 };

@@ -28,6 +28,7 @@ class As_Game_Field
 		static void Line_Elements_Offset(std::vector<int> &line, int delta_offset);
 		static void Reverse();  // Инверсия матрицы относительно главной диагонали
 		
+		static bool Win_Was_Been;
 		static std::vector<bool> Offset_Indicators;
 		static const int N;
 };
