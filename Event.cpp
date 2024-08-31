@@ -7,27 +7,34 @@
 void As_Event::Stop_Program()
 {
 	As_Program::Exit_Program = true;
-	AsCarriage::Set_Coord(0, 2 * As_Game_Field::Game_Field.size() + 3);
+	AsCarriage::Set_Coord(0, 2 * As_Game_Field::Game_Field.size() + 2);
 	AsCarriage::Set_Color(EC_White);
-}
-// ----------------------------------------------------------------------------------------------------
-void As_Event::Show_Record_Table()
-{
-	//стирает главный экран
-	//отображает таблицу рекордов
-	//отображает клавиши управления экраном
-	system("cls");
+	As_Record_Table::Add_Record(As_Total_Score::Total_Score);
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Event::Continue_Game()
 {
-	//убираем сообщение о победе (очистка системного сообщения)
-	//передаём пользователю управление игровой матрицей
-	As_UI_System_Msg::Show_Dynamic(false);  //очищаем системное сообщение
+	if (As_Program::Get_Interaction_Layer() == EIL_Viewing_Results)
+	{
+		system("cls");
+		As_UI_Game_field::Show_Static(true);
+		As_UI_Game_field::Show_Dynamic(true);
+		As_UI_Total_Score::Show_Static(true);
+		As_UI_Total_Score::Show_Dynamic(true);
+		As_UI_Control_Info::Show_Static(true);	
+	}
+	else
+	{
+		As_UI_System_Msg::Show_Dynamic(false);  //очищаем системное сообщение
+	}
+	
+	As_Program::Set_Interaction_Layer(EIL_Matrix_Management);
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Event::Restart_Game()
 {
+	As_Program::Set_Interaction_Layer(EIL_Matrix_Management);
+	
 	As_UI_Game_field::Show_Dynamic(false);  // затираем дин. часть интерфейса
 	As_UI_Total_Score::Show_Dynamic(false);
 	As_UI_System_Msg::Show_Dynamic(false);  //очищаем системное сообщение
@@ -42,6 +49,9 @@ void As_Event::Restart_Game()
 // ----------------------------------------------------------------------------------------------------
 void As_Event::You_Win()
 {
+	As_Record_Table::Add_Record(As_Total_Score::Total_Score);
+	As_Program::Set_Interaction_Layer(EIL_Winning);
+	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
 	As_System_Message::Set("YOU WIN !!!  Press C for continue");
 	As_UI_System_Msg::Set_Color(EC_Yellow);
 	As_Game_Field::Have_2048 = false;        // чтобы в дальнейшем сообщение не печаталось
@@ -50,6 +60,9 @@ void As_Event::You_Win()
 // ----------------------------------------------------------------------------------------------------
 void As_Event::You_Fail()
 {
+	As_Record_Table::Add_Record(As_Total_Score::Total_Score);
+	As_Program::Set_Interaction_Layer(EIL_Losing);
+	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
 	As_System_Message::Set("You Fail...");
 	As_UI_System_Msg::Set_Color(EC_Red);
 	As_Game_Field::Offset_Is_Not_Possible = false;   // чтобы в дальнейшем сообщение не печаталось
@@ -74,4 +87,11 @@ void As_Event::Game_Field_Interaction(EOffsetDirection offset_direction)
 	As_UI_Game_field::Show_Dynamic(true);   // печатаем новое состояние матрицы	
 	As_UI_Total_Score::Show_Dynamic(true);   // печатаем новое состояние счёта
 }
-
+// ----------------------------------------------------------------------------------------------------
+void As_Event::Record_Table_Interaction()
+{
+	system("cls");
+	As_Program::Set_Interaction_Layer(EIL_Viewing_Results);
+	As_UI_Record_Table::Set_Draw_Position(0, 0);
+	As_UI_Record_Table::Show_Static(true);
+}

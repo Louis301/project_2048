@@ -63,5 +63,7 @@ class As_Total_Score
 class As_Record_Table
 {
 	public:
-		static void Reset();
+		//static void Reset();
+		static std::vector<std::vector<std::string>> Get();
+		static void Add_Record(int total_score);
 };

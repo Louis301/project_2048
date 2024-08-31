@@ -1,99 +1,48 @@
 #include "Key_Handler.hpp"
 #include "Event.hpp"
 
-EInteractionLayer Key_Handler::Interaction_Layer = EIL_Main_Screen;
-
+//EInteractionLayer Key_Handler::Interaction_Layer = EIL_Matrix_Management;
 
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_C()
 {
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Continue_Game();
-			break;
-	}
+	As_Event::Continue_Game();
 }
-
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_Esc()
 {
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Stop_Program();
-			break;
-		
-		case EIL_Record_Table_Screen: 
-			// ...
-			break;
-	}
+	if (As_Program::Get_Interaction_Layer() == EIL_Viewing_Results)
+	  As_Event::Continue_Game();
+	else
+	  As_Event::Stop_Program(); 
 }
-
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_R()
 {		
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Restart_Game();
-			break;
-	}
+	As_Event::Restart_Game();
 }
-
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_Space()
 {
-	// таблица рекордов
-	
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Show_Record_Table();
-			break;
-	}
-}
-		
+	As_Event::Record_Table_Interaction();
+}		
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_Up()
 {
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Game_Field_Interaction(EOD_To_Up);
-			break;
-	}
+	As_Event::Game_Field_Interaction(EOD_To_Up);
 }
-
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_Down()
 {
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Game_Field_Interaction(EOD_To_Down);
-			break;
-	}
+	As_Event::Game_Field_Interaction(EOD_To_Down);
 }
-
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_Left()
 {
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Game_Field_Interaction(EOD_To_Left);
-			break;
-	}
+	As_Event::Game_Field_Interaction(EOD_To_Left);
 }
-
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_Right()
 {
-	switch(Interaction_Layer)
-	{
-		case EIL_Main_Screen: 
-			As_Event::Game_Field_Interaction(EOD_To_Right);
-			break;
-	}
+	As_Event::Game_Field_Interaction(EOD_To_Right);
 }

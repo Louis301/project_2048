@@ -6,6 +6,8 @@
 
 bool As_Program::Exit_Program = false;
 
+EInteractionLayer As_Program::Interaction_Layer = EIL_Matrix_Management;
+
 enum EKeys   // для строчных букв
 {
 	EK_ESC = 27,
@@ -22,9 +24,7 @@ void As_Program::Set_Internal_Data()
 {	
 	As_Game_Field::Reset();
 	As_System_Message::Reset();
-	
 	As_Total_Score::Reset();
-	As_Record_Table::Reset();
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Program::Draw_UI()  // для первого экрана
@@ -33,8 +33,8 @@ void As_Program::Draw_UI()  // для первого экрана
 	As_UI_Game_field::Show_Static(true);
 	As_UI_Game_field::Show_Dynamic(true);
 	
-	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
-	As_UI_System_Msg::Show_Dynamic(false);
+	//As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
+	//As_UI_System_Msg::Show_Dynamic(false);
 	
 	As_UI_Total_Score::Set_Draw_Position(As_Game_Field::Game_Field.size() * 5 + 4, 1);
 	As_UI_Total_Score::Show_Static(true);
@@ -45,20 +45,63 @@ void As_Program::Draw_UI()  // для первого экрана
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Program::Start_Controller()
-{
+{	
 	while(!Exit_Program)
 	{
 		switch(getch())
 		{
-			case EK_ESC: 	Key_Handler::On_Esc();		break;
-			case EK_UP:		Key_Handler::On_Up();		break;
-			case EK_DOWN:	Key_Handler::On_Down();		break;
-			case EK_LEFT:	Key_Handler::On_Left();		break;
-			case EK_RIGHT:	Key_Handler::On_Right();	break;
-			case EK_C:		Key_Handler::On_C();		break;
-			case EK_R:		Key_Handler::On_R();		break;
-			case EK_SPACE:	Key_Handler::On_Space();	break;			
-			default:									break;	
+			case EK_ESC: 	
+				Key_Handler::On_Esc();		
+				break;
+				
+			case EK_UP: 
+				if (As_Program::Get_Interaction_Layer() == EIL_Matrix_Management)
+					Key_Handler::On_Up();		
+				break;
+			
+			case EK_DOWN:
+				if (As_Program::Get_Interaction_Layer() == EIL_Matrix_Management)
+					Key_Handler::On_Down();		
+				break;
+			
+			case EK_LEFT:
+			 	if (As_Program::Get_Interaction_Layer() == EIL_Matrix_Management)
+					Key_Handler::On_Left();		
+				break;
+			
+			case EK_RIGHT:
+				if (As_Program::Get_Interaction_Layer() == EIL_Matrix_Management)
+					Key_Handler::On_Right();	
+				break;
+			
+			case EK_C: 
+			 	if (As_Program::Get_Interaction_Layer() == EIL_Winning)
+					Key_Handler::On_C();		
+				break;
+			
+			case EK_R:		
+			 	if (As_Program::Get_Interaction_Layer() == EIL_Losing or 
+				 	As_Program::Get_Interaction_Layer() == EIL_Matrix_Management)
+					Key_Handler::On_R();		
+				break;
+			
+			case EK_SPACE:	
+			 	if (As_Program::Get_Interaction_Layer() == EIL_Matrix_Management)
+					Key_Handler::On_Space();	
+				break;			
+			
+			default:										
+				break;	
 		}	
 	}
+}
+// ----------------------------------------------------------------------------------------------------
+EInteractionLayer As_Program::Get_Interaction_Layer()
+{
+	return As_Program::Interaction_Layer;
+}
+// ----------------------------------------------------------------------------------------------------
+void As_Program::Set_Interaction_Layer(EInteractionLayer inter_layer)
+{
+	As_Program::Interaction_Layer = inter_layer;
 }

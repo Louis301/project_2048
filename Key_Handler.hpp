@@ -1,17 +1,12 @@
 #pragma once
 
 
-enum EInteractionLayer
-{
-	EIL_Main_Screen,
-	EIL_Record_Table_Screen
-};
 
+//constexpr EInteractionLayer Interaction_Layer = EIL_Matrix_Management;
 
 class Key_Handler
 {
-	private:
-		static EInteractionLayer Interaction_Layer;
+//	public:	
 	
 	public:
 		static void On_Esc();
@@ -22,4 +17,13 @@ class Key_Handler
 		static void On_C();
 		static void On_R();
 		static void On_Space();
+		
 };
+
+
+// 
+// обрабочики клавишь должны перегружаться в зависимости от слоя взаимодействия
+//
+//
+//
+//

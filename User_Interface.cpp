@@ -7,7 +7,7 @@
 int As_UI_Game_field::X_Offset = 0;
 int As_UI_Game_field::Y_Offset = 0;
 // ----------------------------------------------------------------------------------------------------
-void As_UI_Game_field::Show_Dynamic(bool Color_Mode)       // Здесь нельзя устанавливать цвет при затирке ?
+void As_UI_Game_field::Show_Dynamic(bool Color_Mode)     
 {	
 	AsCarriage::Hide();
 	auto game_field = As_Game_Field::Game_Field;
@@ -28,6 +28,7 @@ void As_UI_Game_field::Show_Dynamic(bool Color_Mode)       // Здесь нельзя устан
 			{
 				switch (game_field[i][j])      // Color setting
 				{
+					case 0: 	AsCarriage::Set_Color(EC_Black);		break;
 					case 2: 	AsCarriage::Set_Color(EC_Blue);			break;
 					case 4:		AsCarriage::Set_Color(EC_Cyan); 		break;
 					case 8: 	AsCarriage::Set_Color(EC_Dark_Green);	break;
@@ -39,7 +40,7 @@ void As_UI_Game_field::Show_Dynamic(bool Color_Mode)       // Здесь нельзя устан
 					case 512: 	AsCarriage::Set_Color(EC_Dark_Yellow);	break;
 					case 1024: 	AsCarriage::Set_Color(EC_Yellow);		break;
 					case 2048: 	AsCarriage::Set_Color(EC_Dark_Blue);	break;
-					default:	AsCarriage::Set_Color(EC_Black);		break;   // for 0
+					default:	AsCarriage::Set_Color(EC_White);		break;  
 				}	
 			}
 			else
@@ -130,19 +131,15 @@ void As_UI_Control_Info::Show_Static(bool Color_Mode)
 	AsCarriage::Set_Color(Color_Mode ? EC_White : EC_Black);
 	
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset);
-	printf("Control:");
+	printf("CONTROL:");
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 2);
-	printf("r      - restart");
+	printf("R      - restart");
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 3);
-	printf("esc    - exit");
+	printf("Esc    - exit");
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 4);
-	printf("arrows - move");
+	printf("Arrows - move");
 	AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 5);
-	printf("space  - records table");
-	
-	// Выводить при выигрыше (лучше в системных сообщениях)
-	// AsCarriage::Set_Coord(As_UI_Control_Info::X_Offset, As_UI_Control_Info::Y_Offset + 6);
-	// printf("c - continue");
+	printf("Space  - records table");
 }
 
 
@@ -173,5 +170,79 @@ void As_UI_Total_Score::Show_Dynamic(bool Color_Mode)
 	printf("%d  ", score_data[0]);	
 	if (score_data.size() > 1)
 		printf("+%d", score_data[1]);
+}
+
+
+
+
+// ----------------------------------------------------------------------------------------------------
+int As_UI_Record_Table::_X_Offset = 0;
+int As_UI_Record_Table::_Y_Offset = 0;
+// ----------------------------------------------------------------------------------------------------
+void As_UI_Record_Table::Set_Draw_Position(int x_offset, int y_offset)
+{
+	As_UI_Record_Table::_X_Offset = x_offset;
+	As_UI_Record_Table::_Y_Offset = y_offset;
+}
+// ----------------------------------------------------------------------------------------------------
+//#include <ctime>       
+//#include <chrono>       
+//#include <fstream>
+//#include "CSVFile.hpp"
+//#include <iostream>
+// ----------------------------------------------------------------------------------------------------
+void As_UI_Record_Table::Show_Static(bool color_mode)
+{
+	AsCarriage::Set_Color(color_mode ? EC_White : EC_Black);
+	
+	// 1. получить таблицу
+	std::vector<std::vector<std::string>> record_table = As_Record_Table::Get();
+	
+	// 2. напечатать таблицу c заголовком
+	const int columns_n = record_table[0].size();
+	const int rows_n = record_table.size();
+	const int cell_width = 11;  							// Для ячейки шириной в 10 символа
+	
+	// статическая часть
+	for (int y = 0; y <= rows_n * 2; y ++)
+	{   
+	    if (y % 2 == 0)
+	    {
+	    	for (int x = 0; x <= columns_n * cell_width; x ++)
+	    	{
+	    		AsCarriage::Set_Coord(As_UI_Record_Table::_X_Offset + x, As_UI_Record_Table::_Y_Offset + y);
+				printf("%c", (x % cell_width == 0) ? '+' : '-');
+			}
+		}
+		else
+		{
+			for (int x = 0; x <= columns_n; x ++)
+			{
+				AsCarriage::Set_Coord(As_UI_Record_Table::_X_Offset + x * cell_width, As_UI_Record_Table::_Y_Offset + y);
+				printf("|");
+			}
+		}
+	}
+	
+	// "динамическая" часть
+	for (int i = 0; i < rows_n; i++)
+	{
+		for (int j = 0; j < columns_n; j++)
+		{
+			AsCarriage::Set_Coord(
+				As_UI_Record_Table::_X_Offset + 1 + j * cell_width, 
+				As_UI_Record_Table::_Y_Offset + 1 + i * 2
+			);
+			
+			std::cout << record_table[i][j];
+		}		
+	}			
+	
+	// 3. напечатать системное сообщение		
+	As_System_Message::Set("Esc   - to main screen");
+	As_UI_System_Msg::Set_Color(EC_Yellow);
+	As_UI_System_Msg::Set_Draw_Position(0, rows_n * 2 + 2);
+	As_UI_System_Msg::Show_Dynamic(true);
+	As_System_Message::Reset();
 }
 
