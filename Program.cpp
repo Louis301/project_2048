@@ -1,7 +1,9 @@
 #include "Program.hpp"
 #include "Key_Handler.hpp"
 #include "User_Interface.hpp"
-#include "InternalData.hpp"
+#include "Game_Field.hpp"
+#include "Total_Score.hpp"
+#include "System_Message.hpp"
 #include <conio.h>
 
 bool As_Program::Exit_Program = false;
@@ -27,20 +29,17 @@ void As_Program::Set_Internal_Data()
 	As_Total_Score::Reset();
 }
 // ----------------------------------------------------------------------------------------------------
-void As_Program::Draw_UI()  // для первого экрана
+void As_Program::Draw_UI()  // для первого отображения экрана
 {
 	As_UI_Game_field::Set_Draw_Position(0, 0);
 	As_UI_Game_field::Show_Static(true);
 	As_UI_Game_field::Show_Dynamic(true);
 	
-	//As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
-	//As_UI_System_Msg::Show_Dynamic(false);
-	
 	As_UI_Total_Score::Set_Draw_Position(As_Game_Field::Game_Field.size() * 5 + 4, 1);
 	As_UI_Total_Score::Show_Static(true);
 	As_UI_Total_Score::Show_Dynamic(true);
 	
-	As_UI_Control_Info::Set_Draw_Position(As_Game_Field::Game_Field.size() * 5 + 4, 3);    // Здесь нужен cell_width
+	As_UI_Control_Info::Set_Draw_Position(As_Game_Field::Game_Field.size() * 5 + 4, 3);    
 	As_UI_Control_Info::Show_Static(true);
 }
 // ----------------------------------------------------------------------------------------------------

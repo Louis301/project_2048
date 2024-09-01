@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o Event.o InternalData.o
-LINKOBJ  = Main.o CSVFile.o Carriage.o Program.o Key_Handler.o User_Interface.o Event.o InternalData.o
+OBJ      = Main.o Carriage.o Program.o Key_Handler.o User_Interface.o Event.o Game_Field.o Total_Score.o System_Message.o Record_Table.o
+LINKOBJ  = Main.o Carriage.o Program.o Key_Handler.o User_Interface.o Event.o Game_Field.o Total_Score.o System_Message.o Record_Table.o
 LIBS     = -L"C:/Program Files/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -m32 -g3
 INCS     = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -27,9 +27,6 @@ $(BIN): $(OBJ)
 Main.o: Main.cpp
 	$(CPP) -c Main.cpp -o Main.o $(CXXFLAGS)
 
-CSVFile.o: CSVFile.cpp
-	$(CPP) -c CSVFile.cpp -o CSVFile.o $(CXXFLAGS)
-
 Carriage.o: Carriage.cpp
 	$(CPP) -c Carriage.cpp -o Carriage.o $(CXXFLAGS)
 
@@ -45,5 +42,14 @@ User_Interface.o: User_Interface.cpp
 Event.o: Event.cpp
 	$(CPP) -c Event.cpp -o Event.o $(CXXFLAGS)
 
-InternalData.o: InternalData.cpp
-	$(CPP) -c InternalData.cpp -o InternalData.o $(CXXFLAGS)
+Game_Field.o: Game_Field.cpp
+	$(CPP) -c Game_Field.cpp -o Game_Field.o $(CXXFLAGS)
+
+Total_Score.o: Total_Score.cpp
+	$(CPP) -c Total_Score.cpp -o Total_Score.o $(CXXFLAGS)
+
+System_Message.o: System_Message.cpp
+	$(CPP) -c System_Message.cpp -o System_Message.o $(CXXFLAGS)
+
+Record_Table.o: Record_Table.cpp
+	$(CPP) -c Record_Table.cpp -o Record_Table.o $(CXXFLAGS)

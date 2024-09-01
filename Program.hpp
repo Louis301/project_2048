@@ -8,6 +8,7 @@ enum EInteractionLayer
 	EIL_Viewing_Results
 };
 
+// ----------------------------------------------------------------------------------------------------
 class As_Program 
 {
 	private:

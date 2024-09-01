@@ -1,63 +1,62 @@
 #pragma once
 #include "Carriage.hpp"
-#include <iostream>
 
 // ----------------------------------------------------------------------------------------------------
-class As_UI_Game_field
+class As_UI_System_Msg 
 {
 	private:
-		static int X_Offset;
-		static int Y_Offset;
-		
-	public:
-		static void Set_Draw_Position(int x_offset, int y_offset);
-		static void Show_Dynamic(bool Color_Mode);
-		static void Show_Static(bool Color_Mode);
-};
-// ----------------------------------------------------------------------------------------------------
-class As_UI_System_Msg
-{
-	private:
-		static int    _X_Offset;
-		static int    _Y_Offset;
 		static EColor _Color;
+		static int _X_Offset;
+		static int _Y_Offset;
 		
 	public:
-		static void Set_Draw_Position(int x_offset, int y_offset);
-		static void Show_Dynamic(bool Color_Mode);
 		static void Set_Color(EColor color);
+		static void Show_Dynamic(bool color_mode);
+		static void Set_Draw_Position(int x_offset, int y_offset);
 };
 // ----------------------------------------------------------------------------------------------------
-class As_UI_Control_Info     
+class As_UI_Control_Info 
 {
 	private:
-		static int X_Offset;
-		static int Y_Offset;
+		static int _X_Offset;
+		static int _Y_Offset;
 		
 	public:
-		static void Set_Draw_Position(int x_offset, int y_offset);
-		static void Show_Static(bool Color_Mode);
-};
-// ----------------------------------------------------------------------------------------------------
-class As_UI_Total_Score
-{	
-	private:
-		static int X_Offset;
-		static int Y_Offset;
-		
-	public:
-		static void Set_Draw_Position(int x_offset, int y_offset);
-		static void Show_Static(bool Color_Mode);
-		static void Show_Dynamic(bool Color_Mode);
-};
-// ----------------------------------------------------------------------------------------------------
-class As_UI_Record_Table
-{
-	private:
-		static int    _X_Offset;
-		static int    _Y_Offset;
-		
-	public:
-		static void Set_Draw_Position(int x_offset, int y_offset);
 		static void Show_Static(bool color_mode);
+		static void Set_Draw_Position(int x_offset, int y_offset);
+};
+// ----------------------------------------------------------------------------------------------------
+class As_UI_Total_Score  
+{
+	private:
+		static int _X_Offset;
+		static int _Y_Offset;
+		
+	public:
+		static void Show_Static(bool color_mode);
+		static void Show_Dynamic(bool color_mode);
+		static void Set_Draw_Position(int x_offset, int y_offset);
+};
+// ----------------------------------------------------------------------------------------------------
+class As_UI_Record_Table 
+{
+	private:
+		static int _X_Offset;
+		static int _Y_Offset;
+		
+	public:
+		static void Show_Static(bool color_mode);
+		static void Set_Draw_Position(int x_offset, int y_offset);
+};
+// ----------------------------------------------------------------------------------------------------
+class As_UI_Game_field 
+{
+	private:
+		static int _X_Offset;
+		static int _Y_Offset;
+		
+	public:
+		static void Show_Static(bool color_mode);
+		static void Show_Dynamic(bool color_mode);
+		static void Set_Draw_Position(int x_offset, int y_offset);
 };

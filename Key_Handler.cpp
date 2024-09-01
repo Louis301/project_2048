@@ -1,8 +1,6 @@
 #include "Key_Handler.hpp"
 #include "Event.hpp"
 
-//EInteractionLayer Key_Handler::Interaction_Layer = EIL_Matrix_Management;
-
 // ----------------------------------------------------------------------------------------------------
 void Key_Handler::On_C()
 {
