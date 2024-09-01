@@ -16,16 +16,26 @@ std::vector<std::vector<std::string>> As_Record_Table::Get()
 		std::string temp_string;
 		while(getline(fin, temp_string))
 		{	
-			size_t pos = 0;
-			std::string token;
 			std::vector<std::string> record;
-			while ((pos = temp_string.find(delimiter)) != std::string::npos) 
+			
+			if (temp_string != "")
 			{
-			    token = temp_string.substr(0, pos);
-			    record.push_back(token);
-			    temp_string.erase(0, pos + delimiter.length());
+				size_t pos = 0;
+				std::string token;
+//				std::vector<std::string> record;
+				while ((pos = temp_string.find(delimiter)) != std::string::npos) 
+				{
+				    token = temp_string.substr(0, pos);
+				    record.push_back(token);
+				    temp_string.erase(0, pos + delimiter.length());
+				}
+				record.push_back(temp_string);	
 			}
-			record.push_back(temp_string);			
+			else
+			{
+				record.push_back({"",""});	
+			}
+			
 			record_table.push_back(record);
 		}
 	}

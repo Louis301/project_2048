@@ -18,7 +18,7 @@ void As_UI_Game_field::Set_Draw_Position(int x_offset, int y_offset)
 void As_UI_Game_field::Show_Dynamic(bool Color_Mode)     
 {	
 	AsCarriage::Hide();
-	auto game_field = As_Game_Field::Game_Field;
+	std::vector<std::vector<int> >  game_field = As_Game_Field::Game_Field;
 	const int n = game_field.size();	
 	const int cell_width = 5;  		// Для ячейки шириной в 4 символа
 	
@@ -169,7 +169,7 @@ void As_UI_Total_Score::Show_Dynamic(bool Color_Mode)
 {
 	AsCarriage::Set_Color(Color_Mode ? EC_White : EC_Black);
 	AsCarriage::Set_Coord(As_UI_Total_Score::_X_Offset + 8, As_UI_Total_Score::_Y_Offset);
-	std::vector<int> score_data	= As_Total_Score::Get();
+	std::vector<int> score_data	= As_Total_Score::Get_With_Delta();
 	printf("%d  ", score_data[0]);	
 	if (score_data.size() > 1)
 		printf("+%d", score_data[1]);
@@ -192,7 +192,7 @@ void As_UI_Record_Table::Show_Static(bool color_mode)
 {
 	AsCarriage::Set_Color(color_mode ? EC_White : EC_Black);
 	
-	std::vector<std::vector<std::string>> record_table = As_Record_Table::Get();
+	std::vector<std::vector<std::string> > record_table = As_Record_Table::Get();
 	
 	const int columns_n = record_table[0].size();
 	const int rows_n = record_table.size();

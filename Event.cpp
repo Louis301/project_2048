@@ -12,7 +12,7 @@ void As_Event::Stop_Program()
 	As_Program::Exit_Program = true;
 	AsCarriage::Set_Coord(0, 2 * As_Game_Field::Game_Field.size() + 2);
 	AsCarriage::Set_Color(EC_White);
-	As_Record_Table::Add_Record(As_Total_Score::Total_Score);
+	As_Record_Table::Add_Record(As_Total_Score::Get());
 }
 // ----------------------------------------------------------------------------------------------------
 void As_Event::Continue_Game()
@@ -52,7 +52,6 @@ void As_Event::Restart_Game()
 // ----------------------------------------------------------------------------------------------------
 void As_Event::You_Win()
 {
-	As_Record_Table::Add_Record(As_Total_Score::Total_Score);
 	As_Program::Set_Interaction_Layer(EIL_Winning);
 	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
 	As_System_Message::Set("YOU WIN !!!  Press C for continue");
@@ -63,7 +62,6 @@ void As_Event::You_Win()
 // ----------------------------------------------------------------------------------------------------
 void As_Event::You_Fail()
 {
-	As_Record_Table::Add_Record(As_Total_Score::Total_Score);
 	As_Program::Set_Interaction_Layer(EIL_Losing);
 	As_UI_System_Msg::Set_Draw_Position(0, 2 * As_Game_Field::Game_Field.size() + 2);
 	As_System_Message::Set("You Fail...  Press R for reload");

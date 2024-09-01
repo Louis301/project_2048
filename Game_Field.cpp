@@ -8,7 +8,7 @@ bool As_Game_Field::Have_2048;
 bool As_Game_Field::Offset_Is_Not_Possible;
 bool As_Game_Field::Win_Was_Been;
 
-std::vector<std::vector<int>> As_Game_Field::Game_Field;
+std::vector<std::vector<int> > As_Game_Field::Game_Field;
 std::vector<bool> As_Game_Field::Offset_Indicators;
 
 const int As_Game_Field::N = 4;  // ѕор€док игровой матрицы
@@ -73,9 +73,9 @@ void As_Game_Field::Line_Elements_Offset(std::vector<int> &line, int delta_offse
         else if (line[j] == line[i])   // здесь проверка возможности след. хода
         {
         	line[i] *= 2;	
-			As_Total_Score::Save_Up(line[i]);   // ¬≈–Ќ”“№—я ѕќ«∆≈   здесь надо дельту накапливать			
+			As_Total_Score::Delta_Increment(line[i]);			
 			
-			if (line[i] == 2048 and !Win_Was_Been)      // дл€ обработки выигрыша      ¬≈–Ќ”“№ 2048
+			if (line[i] == 2048 and !Win_Was_Been)  // дл€ обработки выигрыша 
 				Win_Was_Been = Have_2048 = true;
 			
 			i += delta_offset;
@@ -122,6 +122,8 @@ void As_Game_Field::Offset(EOffsetDirection offset_direction)   // полное смещен
 	bool vertical_offset = false;
 	int delta_offset = 1;
 	
+	As_Total_Score::Reset_Delta();
+	
 	if (offset_direction == EOD_To_Down || offset_direction == EOD_To_Up)
         vertical_offset = true;
     if (offset_direction == EOD_To_Right || offset_direction == EOD_To_Down)
@@ -132,6 +134,8 @@ void As_Game_Field::Offset(EOffsetDirection offset_direction)   // полное смещен
     	Line_Elements_Offset(line, delta_offset);
 	if (vertical_offset)  
 		Reverse();
+		
+	As_Total_Score::Save_Up();
 	
 	// здесь известно, прошло смещение в конкретном направлении или нет, а также содержит матрица 2048 или нет
 	Offset_Indicators[offset_direction] = Offset_Has_Been;

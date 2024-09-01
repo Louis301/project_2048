@@ -21,7 +21,7 @@ class As_Game_Field
 		static bool Have_2048;
 		static bool Offset_Has_Been;
 		
-		static std::vector<std::vector<int>> Game_Field;   // Список списков целочисленных элементов]
+		static std::vector<std::vector<int> > Game_Field;   // Список списков целочисленных элементов]
 		
 	private:
 		static void Line_Elements_Offset(std::vector<int> &line, int delta_offset);
